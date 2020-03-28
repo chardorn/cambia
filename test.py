@@ -8,11 +8,10 @@ def messageFunction (client, userdata, message):
 
 ourClient = mqtt.Client("makerio_mqtt")
 ourClient.connect("192.168.43.191")
-ourClient.subscribe("AC_unit")
+ourClient.subscribe("testy")
 ourClient.on_message = messageFunction
 ourClient.loop_start()
 
 while(1):
-	ourClient.publish("AC_unit", "hubbala")
+	ourClient.publish("testy", "hubbala")
 	time.sleep(1)
-
