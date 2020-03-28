@@ -22,7 +22,7 @@ def publish_image():
     f=open("image_test.jpg", "rb") #3.7kiB in same folder
     fileContent = f.read()
     byteArr = bytearray(fileContent)
-    publish.single(topic, byteArr, hostname=ip_address)
+    client.publish("image", byteArr)
     print("image published")
 
 def on_message(client, userdata, msg):
@@ -33,6 +33,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.connect("192.168.43.191")
 client.subscribe("request")
-client.on_message = on_message
+client.message_callback_add(sub, on_message)
+#client.on_message = on_message
 
 client.loop_forever()
