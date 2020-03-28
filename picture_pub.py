@@ -1,21 +1,34 @@
-import paho.mqtt.client as mqtt
-import base64
-import random, string
-import math
-import time
+import paho.mqtt.publish as publish
+import picamera
+from time import sleep
 
-def on_publish(mosq, userdata, mid):
-    mosq.disconnect()
+ip_address = "192.168.43.191"  #Write Server IP Address
+camera = picamera.PiCamera()
 
-client = mqtt.Client("makerio_mqtt")
+def take_picture():
+    try:
+        camera.start_preview()
+        sleep(1)
+        camera.capture('image_test.jpg', resize=(500,281))
+        camera.stop_preview()
+        pass
+    finally:
+        camera.close()
+
+
+def publish_image():
+    topic = "image"
+    f=open("image_test.jpg", "rb") #3.7kiB in same folder
+    fileContent = f.read()
+    byteArr = bytearray(fileContent)
+    publish.single(topic, byteArr, hostname=ip_address)
+
+def on_message(client, userdata, msg):
+    print("message receieved")
+    take_picture()
+    publish_image()
+
+client = mqtt.Client()
+client.subscribe("request")
+client.on_message = on_message
 client.connect("192.168.43.191")
-client.subscribe("image")
-client.on_publish = on_publish
-
-f=open("image_test.jpg", "rb") #3.7kiB in same folder
-fileContent = f.read()
-byteArr = bytearray(fileContent)
-client.publish("image", "here")
-client.publish("image",byteArr,0)
-
-client.loop_start()
