@@ -13,8 +13,10 @@ def take_picture():
         camera.capture('image_test.jpg', resize=(500,281))
         camera.stop_preview()
         pass
-    finally:
-        camera.close()
+    except:
+	pass
+    #finally:
+    #    camera.close()
 
 
 def publish_image():
@@ -33,7 +35,7 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.connect("192.168.43.191")
 client.subscribe("request")
-client.message_callback_add(sub, on_message)
+client.message_callback_add("request", on_message)
 #client.on_message = on_message
 
 client.loop_forever()
