@@ -1,3 +1,4 @@
+import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import picamera
 from time import sleep
@@ -22,6 +23,7 @@ def publish_image():
     fileContent = f.read()
     byteArr = bytearray(fileContent)
     publish.single(topic, byteArr, hostname=ip_address)
+    print("image published")
 
 def on_message(client, userdata, msg):
     print("message receieved")
@@ -29,6 +31,8 @@ def on_message(client, userdata, msg):
     publish_image()
 
 client = mqtt.Client()
+client.connect("192.168.43.191")
 client.subscribe("request")
 client.on_message = on_message
-client.connect("192.168.43.191")
+
+client.loop_forever()
