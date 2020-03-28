@@ -1,4 +1,6 @@
 import paho.mqtt.client as mqtt
+import subprocess
+
 MQTT_SERVER = "localhost"
 MQTT_PATH = "image"
 
@@ -19,6 +21,11 @@ def on_message(client, userdata, msg):
     f.write(msg.payload)
     print("Image Received")
     f.close()
+    openimg = subprocess.call(["open", '/Applications/Preview.app', "output.jpg"])
+    #time.sleep(5)
+    #openimg.terminate()
+    #openimg.kill()
+
 
 client = mqtt.Client()
 client.on_connect = on_connect
