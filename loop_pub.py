@@ -3,8 +3,11 @@ import paho.mqtt.publish as publish
 import picamera
 from time import sleep
 
-ip_address = "test.mosquitto.org"  #Write Server IP Address
+#ip_address = "broker.hivemq.com"  #Write Server IP Address
+ip_address = "test.mosquitto.org"
 camera = picamera.PiCamera()
+
+
 
 def take_picture():
     try:
@@ -33,7 +36,12 @@ def on_message(client, userdata, msg):
 client = mqtt.Client()
 client.connect("test.mosquitto.org", 1883)
 client.subscribe("cambia_critters")
-client.message_callback_add("cambia_critters", on_message)
+#client.message_callback_add("cambia_critters", on_message)
 #client.on_message = on_message
 
-client.loop_forever()
+#client.loop_forever()
+
+while(1):
+    sleep(5)
+    take_picture()
+    publish_image()
