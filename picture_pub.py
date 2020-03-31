@@ -3,7 +3,7 @@ import paho.mqtt.publish as publish
 import picamera
 from time import sleep
 
-ip_address = "192.168.43.191"  #Write Server IP Address
+ip_address = "localhost"  #Write Server IP Address
 camera = picamera.PiCamera()
 
 def take_picture():
@@ -13,8 +13,10 @@ def take_picture():
         camera.capture('image_test.jpg', resize=(500,281))
         camera.stop_preview()
         pass
-    finally:
-        camera.close()
+    except:
+        pass
+    #finally:
+    #    camera.close()
 
 
 def publish_image():
@@ -31,9 +33,9 @@ def on_message(client, userdata, msg):
     publish_image()
 
 client = mqtt.Client()
-client.connect("192.168.43.191")
+client.connect(ip_address)
 client.subscribe("request")
-client.message_callback_add(sub, on_message)
+client.message_callback_add("request", on_message)
 #client.on_message = on_message
 
 client.loop_forever()

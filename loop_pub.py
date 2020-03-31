@@ -1,10 +1,13 @@
-import paho.mqtt.client as client
+import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import picamera
 from time import sleep
 
-ip_address = "192.168.1.191"  #Write Server IP Address
+#ip_address = "broker.hivemq.com"  #Write Server IP Address
+ip_address = "test.mosquitto.org"
 camera = picamera.PiCamera()
+
+
 
 def take_picture():
     try:
@@ -18,11 +21,11 @@ def take_picture():
         pass
 
 def publish_image():
-    topic = "image"
+    topic = "cambia_critters"
     f=open("image_test.jpg", "rb") #3.7kiB in same folder
     fileContent = f.read()
     byteArr = bytearray(fileContent)
-    client.publish("image", byteArr)
+    client.publish(topic, byteArr)
     print("image published")
 
 def on_message(client, userdata, msg):
@@ -30,10 +33,15 @@ def on_message(client, userdata, msg):
     take_picture()
     publish_image()
 
-client = client.Client()
-client.connect("192.168.1.191")
-client.subscribe("request")
-client.message_callback_add("request", on_message)
+client = mqtt.Client()
+client.connect("test.mosquitto.org", 1883)
+client.subscribe("cambia_critters")
+#client.message_callback_add("cambia_critters", on_message)
 #client.on_message = on_message
 
-client.loop_forever()
+#client.loop_forever()
+
+while(1):
+    sleep(5)
+    take_picture()
+    publish_image()
