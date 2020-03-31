@@ -1,4 +1,4 @@
-import paho.mqtt.client as mqtt
+import paho.mqtt.client as client
 import paho.mqtt.publish as publish
 import picamera
 from time import sleep
@@ -30,7 +30,7 @@ def on_message(client, userdata, msg):
     take_picture()
     publish_image()
 
-client = mqtt.Client()
+client = client.Client()
 client.connect("192.168.1.191")
 client.subscribe("request")
 client.message_callback_add(sub, on_message)

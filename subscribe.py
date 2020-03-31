@@ -1,8 +1,8 @@
 import paho.mqtt.client as mqtt
 import subprocess
 
-MQTT_SERVER = "localhost"
-MQTT_PATH = "image"
+MQTT_SERVER = "test.mosquitto.org"
+MQTT_PATH = "cambia_critters"
 
 # The callback for when the client receives a CONNACK response from the server.
 def on_connect(client, userdata, flags, rc):
@@ -21,7 +21,7 @@ def on_message(client, userdata, msg):
     f.write(msg.payload)
     print("Image Received")
     f.close()
-    openimg = subprocess.call(["open", '/Applications/Preview.app', "output.jpg"])
+    openimg = subprocess.call(["open", "output.jpg"])
     #time.sleep(5)
     #openimg.terminate()
     #openimg.kill()
