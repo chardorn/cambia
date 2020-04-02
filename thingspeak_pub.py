@@ -21,26 +21,26 @@ import psutil
 
 # The ThingSpeak Channel ID
 # Replace this with your Channel ID
-channelID = "XXXX"
+channelID = "1028998"
 
 # The Write API Key for the channel
 # Replace this with your Write API key
-apiKey = "XXXXYYYYXXXXYYYY"
+apiKey = "6MCNQF4KPLG2D5O8"
 
 #  MQTT Connection Methods
 
 # Set useUnsecuredTCP to True to use the default MQTT port of 1883
 # This type of unsecured MQTT connection uses the least amount of system resources.
-useUnsecuredTCP = False
+useUnsecuredTCP = True
 
 # Set useUnsecuredWebSockets to True to use MQTT over an unsecured websocket on port 80.
 # Try this if port 1883 is blocked on your network.
-useUnsecuredWebsockets = False
+useUnsecuredWebsockets = True
 
 # Set useSSLWebsockets to True to use MQTT over a secure websocket on port 443.
 # This type of connection will use slightly more system resources, but the connection
 # will be secured by SSL.
-useSSLWebsockets = True
+useSSLWebsockets = False
 
 ###   End of user configuration   ###
 
