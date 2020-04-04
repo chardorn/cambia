@@ -25,11 +25,6 @@ def publish_image():
     client.publish(topic, byteArr)
     print("image published")
 
-def on_message(client, userdata, msg):
-    print("message receieved")
-    take_picture()
-    publish_image()
-
 client = mqtt.Client()
 client.connect(ip_address, 1883)
 client.subscribe(topic)
